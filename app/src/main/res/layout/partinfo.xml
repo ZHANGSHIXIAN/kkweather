@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="2dp"
+    app:cardBackgroundColor="@color/cardbg"
+    android:layout_margin="10dp"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:elevation="6dp"
+    >
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:layout_margin="5dp"
+    android:gravity="center"
+    >
+    <ImageView
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_weight="1"
+        android:src="@drawable/sunrise"
+
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="--"
+        android:textColor="#555555"
+        android:id="@+id/sunrise"
+        android:paddingLeft="10dp"
+        android:layout_weight="1"
+        />
+    <ImageView
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:src="@drawable/sunset"
+        android:layout_weight="1"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#555555"
+        android:id="@+id/sunset"
+        android:paddingLeft="10dp"
+        android:text="--"
+        android:layout_weight="1"
+        />
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/water"
+        android:layout_weight="1"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="--"
+        android:id="@+id/hum"
+        android:textColor="#555555"
+        android:paddingLeft="10dp"
+        android:layout_weight="1"
+        />
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/spd"
+        android:layout_weight="1"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="--"
+        android:textColor="#555555"
+        android:id="@+id/spd"
+        android:paddingLeft="10dp"
+        android:layout_weight="1"
+        />
+
+
+</LinearLayout>
+</android.support.v7.widget.CardView>

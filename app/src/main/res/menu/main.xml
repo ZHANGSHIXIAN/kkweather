@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+  <item
+        android:id="@+id/updatecity"
+        android:icon="@drawable/update"
+        app:showAsAction="always"
+        android:title="刷新所有城市数据"
+
+        />
+
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/search_four"
+        app:showAsAction="always"
+        android:title="查找"
+        />
+</menu>

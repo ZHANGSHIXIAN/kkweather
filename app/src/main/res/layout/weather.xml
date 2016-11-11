@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="2dp"
+    app:cardBackgroundColor="@color/cardbg"
+    android:layout_margin="10dp"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:elevation="6dp"
+    >
+
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:layout_margin="10dp"
+
+
+    >
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:id="@+id/cond_image"
+            android:src="@drawable/type_one_sunny"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+
+            />
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="right"
+    android:layout_weight="1"
+    >
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            >
+            <TextView
+                android:id="@+id/cur_weather"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="--C"
+                android:textColor="#525252"
+                android:layout_centerInParent="true"
+                android:textSize="50sp"
+                />
+            <TextView
+                android:id="@+id/max_weather"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="↑--"
+                android:textSize="17sp"
+                android:layout_toRightOf="@+id/cur_weather"
+
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="↓--"
+                android:textSize="17sp"
+                android:layout_below="@+id/cur_weather"
+                android:layout_toRightOf="@+id/cur_weather"
+                android:id="@+id/min_weather"
+                />
+
+        </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="20dp"
+        android:paddingTop="10dp"
+        android:layout_gravity="center"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/pm25"
+            android:text="PM25 : --"
+            android:textSize="12sp"
+            android:paddingRight="20dp"
+
+            android:layout_gravity="right"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/qlt"
+            android:textSize="12sp"
+            android:text="空气质量：--"
+            android:layout_gravity="right"
+            />
+
+    </LinearLayout>
+
+
+
+</LinearLayout>
+</LinearLayout>
+</android.support.v7.widget.CardView>

@@ -303,9 +303,8 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        String allcityjsoninfo=String.format(getString(R.string.allcityjson));
-        citylist=JsonJx.getCityList(allcityjsoninfo);
-        citymap=JsonJx.getCityMap(allcityjsoninfo);
+        citylist=JsonJx.getCityList();
+        citymap=JsonJx.getCityMap();
 
     }
 

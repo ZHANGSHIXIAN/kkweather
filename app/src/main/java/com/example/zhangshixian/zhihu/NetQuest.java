@@ -3,7 +3,6 @@ package com.example.zhangshixian.zhihu;
 import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -21,7 +20,7 @@ public class NetQuest {
     public static String getCityJson(Context context,String cityname){
                 Map<String,String> citymap;
 
-                citymap=JsonJx.getCityMap(context.getResources().getString(R.string.allcityjson));
+                citymap=JsonJx.getCityMap();
 
                 String cityid = citymap.get(cityname);
                 String cityIdhead = "https://api.heweather.com/x3/weather?cityid=";
@@ -55,7 +54,7 @@ public class NetQuest {
 
 
 
-
+/*
     public static String getAllCityJsonInfo(){
         HttpsURLConnection connection = null;
         StringBuilder response = new StringBuilder();
@@ -86,33 +85,10 @@ public class NetQuest {
 
 
 
+
         return response.toString();
     }
-
-    public static boolean checkNetworkAvailable(Context context) {
-        ConnectivityManager connectivity = (ConnectivityManager) context
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivity == null) {
-            return false;
-        } else {
-            NetworkInfo[] info = connectivity.getAllNetworkInfo();
-            if (info != null) {
-                for (int i = 0; i < info.length; i++) {
-                    if (info[i].getState() == NetworkInfo.State.CONNECTED) {
-                        NetworkInfo netWorkInfo = info[i];
-                        if (netWorkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
-                            return true;
-                        } else if (netWorkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
-
-        return false;
-
-    }
+    */
 
     public static boolean NetworkIsAvailable(){
         ConnectivityManager con=(ConnectivityManager) Myapplication.getContext().getSystemService(Activity.CONNECTIVITY_SERVICE);

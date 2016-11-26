@@ -1,4 +1,4 @@
-package com.example.zhangshixian.zhihu;
+package com.example.zhangshixian.kkweather;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

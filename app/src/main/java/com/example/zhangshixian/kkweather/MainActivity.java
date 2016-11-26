@@ -1,4 +1,4 @@
-package com.example.zhangshixian.zhihu;
+package com.example.zhangshixian.kkweather;
 
 import android.annotation.TargetApi;
 import android.content.DialogInterface;

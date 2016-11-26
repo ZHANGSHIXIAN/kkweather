@@ -1,4 +1,4 @@
-package com.example.zhangshixian.zhihu;
+package com.example.zhangshixian.kkweather;
 
 import android.app.Application;
 import android.content.Context;

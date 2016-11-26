@@ -1,4 +1,4 @@
-package com.example.zhangshixian.zhihu;
+package com.example.zhangshixian.kkweather;
 
 import org.junit.Test;
 

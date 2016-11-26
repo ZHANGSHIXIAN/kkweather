@@ -1,4 +1,4 @@
-package com.example.zhangshixian.zhihu;
+package com.example.zhangshixian.kkweather;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

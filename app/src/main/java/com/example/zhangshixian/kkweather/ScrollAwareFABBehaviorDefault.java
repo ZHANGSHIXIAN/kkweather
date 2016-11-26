@@ -1,4 +1,4 @@
-package com.example.zhangshixian.zhihu;
+package com.example.zhangshixian.kkweather;
 
 import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;

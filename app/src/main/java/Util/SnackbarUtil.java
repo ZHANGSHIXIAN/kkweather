@@ -1,4 +1,4 @@
-package com.example.zhangshixian.kkweather;
+package util;
 
 import android.graphics.Color;
 import android.support.design.widget.Snackbar;
@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.zhangshixian.kkweather.R;
 
 /**
  * Created by 赵晨璞 on 2016/5/1.

@@ -1,4 +1,7 @@
-package com.example.zhangshixian.kkweather;
+package model;
+
+import util.Myapplication;
+import com.example.zhangshixian.kkweather.R;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -13,7 +16,7 @@ import java.util.Map;
  */
 public class JsonJx {
 
-    static String allcityjaon =Myapplication.getContext().getResources().getString(R.string.allcityjson);
+    static String allcityjaon = Myapplication.getContext().getResources().getString(R.string.allcityjson);
     public static List<String> getCityList(){
 
         List<String> list= new ArrayList<String>();

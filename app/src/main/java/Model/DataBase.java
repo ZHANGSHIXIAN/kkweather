@@ -1,7 +1,9 @@
-package com.example.zhangshixian.kkweather;
+package model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+
+import util.Myapplication;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -15,7 +17,7 @@ public class DataBase {
     private SharedPreferences Sp;
 
     public DataBase(){
-        this.context=Myapplication.getContext();
+        this.context= Myapplication.getContext();
     }
 
     public void save(String name,String data){

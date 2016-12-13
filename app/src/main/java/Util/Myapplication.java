@@ -1,4 +1,4 @@
-package com.example.zhangshixian.kkweather;
+package util;
 
 import android.app.Application;
 import android.content.Context;

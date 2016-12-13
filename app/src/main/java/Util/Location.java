@@ -1,4 +1,4 @@
-package com.example.zhangshixian.kkweather;
+package util;
 
 import android.content.Context;
 import android.preference.PreferenceManager;

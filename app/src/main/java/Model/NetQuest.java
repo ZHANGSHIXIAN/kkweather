@@ -1,8 +1,10 @@
-package com.example.zhangshixian.kkweather;
+package model;
 
 import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
+
+import util.Myapplication;
 
 import java.io.BufferedReader;
 import java.io.InputStream;

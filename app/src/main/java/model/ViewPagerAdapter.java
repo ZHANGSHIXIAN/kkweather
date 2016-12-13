@@ -1,4 +1,4 @@
-package com.example.zhangshixian.kkweather;
+package model;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -6,19 +6,23 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.ViewGroup;
 
+import com.example.zhangshixian.kkweather.OneFragment;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by ZHANGSHIXIAN on 2016/10/29.
  */
-class ViewPagerAdapter extends FragmentStatePagerAdapter {
-    public   List<Fragment> mFragmentList = new ArrayList<>();
-    public   List<String> mFragmentTitleList = new ArrayList<>();
-    FragmentManager fm;
+public class ViewPagerAdapter extends FragmentStatePagerAdapter {
+    private    List<Fragment> mFragmentList;  //PagerView   list
+    private    List<String> mFragmentTitleList;  //Pager Title list
+    public FragmentManager fm;
     public ViewPagerAdapter(FragmentManager manager) {
         super(manager);
-        this.fm=manager;
+        fm=manager;
+        mFragmentList = new ArrayList<>();
+        mFragmentTitleList = new ArrayList<>();
     }
 
     @Override

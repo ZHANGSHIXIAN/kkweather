@@ -25,7 +25,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
-        android:name="com.example.zhangshixian.kkweather.Myapplication"
+        android:name="util.Myapplication"
         android:largeHeap="true"
         >
         <meta-data

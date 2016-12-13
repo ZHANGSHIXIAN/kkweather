@@ -31,6 +31,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import model.DataBase;
+import model.JsonJx;
+import model.NetQuest;
+import model.ViewPagerAdapter;
+import util.SnackbarUtil;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,AMapLocationListener,View.OnClickListener{
     DrawerLayout drawer;
@@ -41,10 +47,10 @@ public class MainActivity extends AppCompatActivity
     FloatingActionButton fab;
     Map<String,String> citymap=new HashMap<String, String>();
     List<String> citylist=new ArrayList<String>();
-    String cityJson;
+
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    private ViewPagerAdapter adapter;
+    public ViewPagerAdapter adapter;
     //声明AMapLocationClient类对象
     public AMapLocationClient mLocationClient = null;
     //声明mLocationOption对象
@@ -56,7 +62,7 @@ public class MainActivity extends AppCompatActivity
     private void setupViewPager(ViewPager viewPager) {
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
-        viewPager.setOffscreenPageLimit(6);
+        viewPager.setOffscreenPageLimit(7);
         tabLayout.setupWithViewPager(viewPager);
     }
 
@@ -303,7 +309,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        citylist=JsonJx.getCityList();
+        citylist= JsonJx.getCityList();
         citymap=JsonJx.getCityMap();
 
     }

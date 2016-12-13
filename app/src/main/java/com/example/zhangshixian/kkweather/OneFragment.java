@@ -21,6 +21,12 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import model.DataBase;
+import model.NetQuest;
+import model.WeatherBean;
+import util.Myapplication;
+import util.SnackbarUtil;
+
 /**
  * Created by ZHANGSHIXIAN on 2016/10/28.
  */
@@ -75,6 +81,8 @@ public class OneFragment extends Fragment implements SwipeRefreshLayout.OnRefres
     View mview=null;
     SwipeRefreshLayout swipeRefreshLayout;
 
+    private static Gson gson;
+
 
     public static OneFragment newInstance(String cityname) {
         OneFragment f = new OneFragment();
@@ -112,6 +120,8 @@ public class OneFragment extends Fragment implements SwipeRefreshLayout.OnRefres
            return mview;
        }
     }
+
+
     private void initData(View view){
 
         swipeRefreshLayout= (SwipeRefreshLayout) view.findViewById(R.id.swipe);
@@ -215,7 +225,8 @@ public class OneFragment extends Fragment implements SwipeRefreshLayout.OnRefres
             try {
             super.onPostExecute(s);
                 if (!s.equals("")) {
-                    Gson gson = new Gson();
+                    if (gson==null)
+                        gson = new Gson();
                     WeatherBean weatherBean = gson.fromJson(s, WeatherBean.class);
                     WeatherBean.HeWeatherdataserviceBean w = weatherBean.getHeWeatherdataservice().get(0);
                     updateui(w);

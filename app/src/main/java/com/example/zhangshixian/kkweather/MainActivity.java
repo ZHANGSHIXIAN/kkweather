@@ -1,5 +1,6 @@
 package com.example.zhangshixian.kkweather;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,8 +15,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,7 +38,7 @@ import model.NetQuest;
 import model.ViewPagerAdapter;
 import util.SnackbarUtil;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener,AMapLocationListener,View.OnClickListener{
     DrawerLayout drawer;
     CoordinatorLayout coordinator;
@@ -70,6 +71,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.AppTheme_NoActionBar2);
         setContentView(R.layout.activity_main);
         initData();
         setupViewPager(viewPager);
@@ -94,10 +96,16 @@ public class MainActivity extends AppCompatActivity
         });
         tabLayout.setVisibility(View.GONE);
         if(NetQuest.NetworkIsAvailable()){
-            location();
+            if (hasPermission(Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION)){
+                doLocation();
+            }else {
+                showLocationDialog(2);
+                Log.d("-------ONCREATE-------","---------");
+
+            }
         }else {
             SnackbarUtil.LongSnackbar(coordinator, "定位失败,请检查网络是否连接", SnackbarUtil.Alert).show();
-            toolbar.setTitle("定位失败");
         }
 
         if (dataBase.fileIsExists("citytablist")) {
@@ -161,7 +169,28 @@ public class MainActivity extends AppCompatActivity
                         });
                 break;
 
+            case 2:
 
+                builder.setTitle("注意：缺少定位权限");
+                builder.setMessage("请开启此应用定位权限,否则无法使用定位功能");
+                builder.setPositiveButton("好",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                requestPermission(100,Manifest.permission.ACCESS_COARSE_LOCATION,
+                                        Manifest.permission.ACCESS_FINE_LOCATION);
+
+                            }
+                        });
+                builder.setNegativeButton("",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // negative button logic
+                            }
+                        });
+                break;
+            default:
         }
         AlertDialog dialog = builder.create();
         // display dialog
@@ -217,6 +246,8 @@ public class MainActivity extends AppCompatActivity
                 Intent intent=new Intent(MainActivity.this,Search.class);
                 intent.putExtra("citylist", (Serializable) citylist);
                 startActivityForResult(intent,1);
+
+
                 break;
             case R.id.updatecity:
                 if (NetQuest.NetworkIsAvailable()){
@@ -276,14 +307,19 @@ public class MainActivity extends AppCompatActivity
                         tabLayout.setVisibility(View.VISIBLE);
                     }
                     SnackbarUtil.ShortSnackbar(coordinator, "定位完成", SnackbarUtil.Info).show();
-                    fab.setClickable(true);
+
                 }else {
                     SnackbarUtil.ShortSnackbar(coordinator, "暂无网络，定位失败", SnackbarUtil.Alert).show();
                 }
             }
+        }else if (aMapLocation.getErrorCode()==12){
+
+            SnackbarUtil.ShortSnackbar(coordinator, "定位失败，没有定位权限", SnackbarUtil.Info).show();
+                Log.d("-------ONLISTEN-------","---------");
+
+
         }
         mLocationClient.stopLocation();
-        fab.setClickable(true);
     }
 
     private void initData(){
@@ -311,6 +347,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         citylist= JsonJx.getCityList();
         citymap=JsonJx.getCityMap();
+
 
     }
 
@@ -371,8 +408,15 @@ public class MainActivity extends AppCompatActivity
         switch (v.getId()){
             case R.id.fab:
                 if (NetQuest.NetworkIsAvailable()) {
-                    location();
-                    fab.setClickable(false);
+                    if (hasPermission(Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.ACCESS_FINE_LOCATION)){
+                        Log.d("-------有权限-------","-----发起定位----");
+                        doLocation();
+                    }else {
+                        showLocationDialog(2);
+                        Log.d("-------ONCLICK-------","---------");
+                    }
+
                 }else {
                     SnackbarUtil.ShortSnackbar(coordinator,"网络不可用，定位失败",SnackbarUtil.Alert).show();
                 }
@@ -380,5 +424,10 @@ public class MainActivity extends AppCompatActivity
             default:
 
         }
+    }
+
+    @Override
+    public void doLocation() {
+        location();
     }
 }

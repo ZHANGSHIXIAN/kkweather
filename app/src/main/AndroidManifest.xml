@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.zhangshixian.kkweather">
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+
     <!--用于进行网络定位-->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
     <!--用于访问GPS定位-->
@@ -30,11 +30,11 @@
         >
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="ad2293fc1baa86c063f5d2e02aee3c44"/>
+            android:value="07751765f434bc3e9caa6dadda9335ad"/>
         <service android:name="com.amap.api.location.APSService"> </service>
         <activity
-            android:name="com.example.zhangshixian.kkweather.Launch"
-            android:theme="@style/FirstTheme"
+            android:name="com.example.zhangshixian.kkweather.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -46,8 +46,8 @@
             android:theme="@style/AppTheme"
             >
         </activity>
-        <activity android:name="com.example.zhangshixian.kkweather.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"
+        <activity android:name="com.example.zhangshixian.kkweather.Launch"
+            android:theme="@style/FirstTheme"
             >
         </activity>
 

@@ -39,7 +39,7 @@ import model.ViewPagerAdapter;
 import util.SnackbarUtil;
 
 public class MainActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener,AMapLocationListener,View.OnClickListener{
+        implements NavigationView.OnNavigationItemSelectedListener,AMapLocationListener,View.OnClickListener,ViewPager.OnPageChangeListener{
     DrawerLayout drawer;
     CoordinatorLayout coordinator;
     View snackbarView;
@@ -65,6 +65,9 @@ public class MainActivity extends BaseActivity
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(7);
         tabLayout.setupWithViewPager(viewPager);
+        viewPager.setOnPageChangeListener(this);
+
+
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -252,7 +255,7 @@ public class MainActivity extends BaseActivity
             case R.id.updatecity:
                 if (NetQuest.NetworkIsAvailable()){
                 for (int i = 0; i < adapter.getCount(); i++) {
-                    adapter.getOneFragment(i).updateui();
+                    adapter.getOneFragment(i).requestWeather();
                 }
                     SnackbarUtil.ShortSnackbar(coordinator,"正在更新...",SnackbarUtil.Info).show();
                 }else {
@@ -429,5 +432,22 @@ public class MainActivity extends BaseActivity
     @Override
     public void doLocation() {
         location();
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        if (adapter.getFragmentList().size()>0 && !adapter.getOneFragment(position).hasUpdate && !adapter.getOneFragment(position).updateIng) {
+            adapter.getOneFragment(position).requestWeather();
+        }
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 }

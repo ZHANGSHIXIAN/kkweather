@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
 
 import java.io.InputStream;
@@ -23,12 +25,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import model.DataBase;
-import model.GsonRequest;
 import model.JsonJx;
 import model.NetQuest;
 import model.Weather;
 import util.Myapplication;
-import util.SnackbarUtil;
 
 /**
  * Created by ZHANGSHIXIAN on 2016/10/28.
@@ -81,14 +81,14 @@ public class OneFragment extends Fragment implements SwipeRefreshLayout.OnRefres
     TextView forecast4_info;
     TextView forecast5_info;
     TextView forecast6_info;
-    View mview=null;
+    private View mview=null;
     SwipeRefreshLayout swipeRefreshLayout;
 
     private static Gson gson;
+    private DataBase dataBase;
+    private String mCityJsonData=null;
 
-    public boolean hasUpdate = false;
-    public boolean updateIng=false;
-
+    public boolean hasUpdate=false;
 
     public static OneFragment newInstance(String cityname) {
         OneFragment f = new OneFragment();
@@ -105,26 +105,32 @@ public class OneFragment extends Fragment implements SwipeRefreshLayout.OnRefres
         if (args != null) {
             cityname = args.getString("cityname");
         }
+        Log.d("Fragment","---------oncreate--------");
+        gson=new Gson();
+        dataBase=new DataBase();
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-       if (mview==null) {
+        Log.d("Fragment","---------oncreateview--------");
            View view = inflater.inflate(R.layout.fragment_one, container, false);
            initData(view);
-          /* swipeRefreshLayout.post(new Runnable() {
-               @Override
-               public void run() {
-                   swipeRefreshLayout.setRefreshing(true);
-                   new WeatherAsyncTask().execute(cityname);
+           if (dataBase.fileIsExists(cityname)){
+               mCityJsonData=dataBase.restore(cityname);
+               try {
+                   setUiDate(mCityJsonData);
+                   Log.d("Fragment","---------Restore--------");
+               } catch (Exception e) {
+                   e.printStackTrace();
                }
-           });*/
+           }else {
+               requestWeather();
+               Log.d("Fragment","---------RequestWeather--------"+cityname);
+           }
            mview=view;
            return view;
-       }else {
-           return mview;
-       }
+
     }
 
 
@@ -194,22 +200,20 @@ public class OneFragment extends Fragment implements SwipeRefreshLayout.OnRefres
 
 
     public void requestWeather(){
-        DataBase dataBase= new DataBase();
-
+        swipeRefreshLayout.setRefreshing(true);
         if (NetQuest.NetworkIsAvailable()){
-            doBackRequest(dataBase);
+                doBackRequest(dataBase);
         }else{
             if (dataBase.fileIsExists(cityname)){
-                String cityjsondata=dataBase.restore(cityname);
-                Weather weather=gson.fromJson(cityjsondata,Weather.class);
-                Weather.HeWeather5Bean heWeather5Bean=weather.getHeWeather5().get(0);
+                mCityJsonData=dataBase.restore(cityname);
                 try {
-                    setUiDate(heWeather5Bean);
+                    setUiDate(mCityJsonData);
+                    hasUpdate=true;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
-            SnackbarUtil.ShortSnackbar(mview,"请检查网络连接",SnackbarUtil.Alert).show();
+            //SnackbarUtil.ShortSnackbar(mview,"请检查网络连接",SnackbarUtil.Alert).show();
             swipeRefreshLayout.setRefreshing(false);
         }
 
@@ -220,45 +224,43 @@ public class OneFragment extends Fragment implements SwipeRefreshLayout.OnRefres
 
     @Override
     public void onRefresh() {
-        swipeRefreshLayout.setRefreshing(true);
         requestWeather();
-        updateIng=true;
     }
 
     private void doBackRequest(DataBase dataBase) {
-        updateIng = true;
+        swipeRefreshLayout.setRefreshing(true);
         swipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
-                swipeRefreshLayout.setRefreshing(true);
-                GsonRequest<Weather> gsonRequest = new GsonRequest<Weather>(JsonJx.getCityUrl(cityname), Weather.class, new Response.Listener<Weather>() {
+                StringRequest stringRequest = new StringRequest(JsonJx.getCityUrl(cityname), new Response.Listener<String>() {
                     @Override
-                    public void onResponse(Weather weather) {
-                        Weather.HeWeather5Bean heWeather5Bean = weather.getHeWeather5().get(0);
+                    public void onResponse(String s) {
                         try {
-                            setUiDate(heWeather5Bean);
+                            setUiDate(s);
+                            mCityJsonData=s;
                             hasUpdate = true;
-
                         } catch (Exception e) {
                             e.printStackTrace();
-                        } finally {
-
-                            updateIng = false;
+                        }finally {
                             swipeRefreshLayout.setRefreshing(false);
                         }
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-                        SnackbarUtil.ShortSnackbar(mview, "更新失败", SnackbarUtil.Alert).show();
+                        swipeRefreshLayout.setRefreshing(false);
+                        //SnackbarUtil.ShortSnackbar(mview, "更新失败", SnackbarUtil.Alert).show();
                     }
                 });
-                Myapplication.getRequestQueue().add(gsonRequest).setTag("request");
+
+                Myapplication.getRequestQueue().add(stringRequest).setTag("request");
             }
         });
     }
 
-    private void setUiDate(Weather.HeWeather5Bean w) throws Exception {
+    private void setUiDate(String data) throws Exception {
+        Weather weather=gson.fromJson(data,Weather.class);
+        Weather.HeWeather5Bean w=weather.getHeWeather5().get(0);
         cur.setText(w.getNow().getTmp()+"°C");
         min.setText("↓" + w.getDaily_forecast().get(0).getTmp().getMin() + "°");
         max.setText("↑" + w.getDaily_forecast().get(0).getTmp().getMax() + "°");
@@ -367,5 +369,50 @@ public class OneFragment extends Fragment implements SwipeRefreshLayout.OnRefres
     public void onPause() {
         super.onPause();
         Myapplication.getRequestQueue().cancelAll("request");
+        if (mCityJsonData!=null&&dataBase!=null)
+            dataBase.save(cityname,mCityJsonData);
+        Log.d("FragmentonPause","---------onPause--------");
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.d("FragmentonDestroyView","---------destoryView--------");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d("FragmentonDestroy","---------destory--------");
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        Log.d("FragmentonDetach","---------detach--------");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("Fragment","---------onResume--------");
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d("Fragment","---------onStart--------");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.d("Fragment","---------onStop--------");
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.d("Fragment","---------onSave--------");
     }
 }

@@ -66,14 +66,13 @@ public class MainActivity extends BaseActivity
         viewPager.setOffscreenPageLimit(7);
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setOnPageChangeListener(this);
-
-
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("MainActivity","---------oncreate--------");
         setTheme(R.style.AppTheme_NoActionBar2);
         setContentView(R.layout.activity_main);
         initData();
@@ -104,7 +103,6 @@ public class MainActivity extends BaseActivity
                 doLocation();
             }else {
                 showLocationDialog(2);
-                Log.d("-------ONCREATE-------","---------");
 
             }
         }else {
@@ -399,11 +397,13 @@ public class MainActivity extends BaseActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        viewPager.removeAllViews();
+        Log.d("MainActivity","---------onDestory--------");
+        /*viewPager.removeAllViews();
         viewPager.removeAllViewsInLayout();
         for (int i = 0; i <adapter.getCount() ; i++) {
             adapter.removeFragment(i);
-        }
+        }*/
+
     }
 
     @Override
@@ -436,18 +436,51 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        if (adapter.getFragmentList().size()>0 && !adapter.getOneFragment(position).hasUpdate && !adapter.getOneFragment(position).updateIng) {
-            adapter.getOneFragment(position).requestWeather();
-        }
+
+           if (adapter.getFragmentList().size() > 0 && !adapter.getOneFragment(position).hasUpdate) {
+               try {
+                   adapter.getOneFragment(position).requestWeather();
+               }catch (Exception e){
+
+               }
+            }
+
+      //  Log.d("onPageScrolled", "---------Scrolled--------");
     }
 
     @Override
     public void onPageSelected(int position) {
 
+        Log.d("onPageSelecr","---------Selected--------");
     }
 
     @Override
     public void onPageScrollStateChanged(int state) {
-
+        Log.d("onPageSelecr","---------ScrollStatChange--------");
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d("MainActivity","---------onStart--------");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d("MainActivity","---------onRecreate--------");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("MainActivity","---------onResume--------");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d("MainActivity","---------onStop--------");
+    }
+
 }

@@ -1,7 +1,5 @@
 package model;
 
-import android.util.Log;
-
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
@@ -41,7 +39,6 @@ public class GsonRequest<T> extends Request<T> {
         try {
             String jsonString = new String(response.data,
                     HttpHeaderParser.parseCharset(response.headers));
-            Log.d("TAG-------",jsonString);
             return Response.success(mGson.fromJson(jsonString, mClass),
                     HttpHeaderParser.parseCacheHeaders(response));
         } catch (UnsupportedEncodingException e) {
